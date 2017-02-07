@@ -1,0 +1,42 @@
+{
+  "name": "meta-yarn",
+  "version": "0.0.0",
+  "description": "yarn plugin for meta",
+  "main": "index.js",
+  "bin": {
+    "meta-yarn": "./bin/meta-yarn",
+    "meta-yarn-clean": "./bin/meta-yarn-clean",
+    "meta-yarn-install": "./bin/meta-yarn-install",
+    "meta-yarn-link": "./bin/meta-yarn-link"
+  },
+  "scripts": {
+    "test": "yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mateodelnorte/meta-yarn.git"
+  },
+  "keywords": [
+    "yarn",
+    "meta",
+    "repo",
+    "repository",
+    "metarepository",
+    "metarepo"
+  ],
+  "author": "hi@iammattwalters.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mateodelnorte/meta/issues"
+  },
+  "homepage": "https://github.com/mateodelnorte/meta-yarn#readme",
+  "dependencies": {
+    "async": "^2.1.4",
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "debug": "^2.3.3",
+    "lodash": "^4.17.4",
+    "loop-things": "0.0.22",
+    "meta-exec": "0.0.0"
+  }
+}
