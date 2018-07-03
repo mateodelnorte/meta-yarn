@@ -9,7 +9,7 @@ const path = require('path');
 const util = require('util');
 
 if (process.argv[2] === '--help') {
-  return console.log(`\n  usage:\n\n    meta yarn clean [--cwd some/rel/path]\n\n  options: \n\n    --cwd some/rel/path   remove node_modules in a relative directory.\n`);
+  return console.log(`\n  usage:\n\n    meta yarn clean [--cwd some/rel/path]\n\n  options: \n\n    --cwd some/rel/path   delete the node_modules in a relative directory.\n`);
 }
 
 const meta = getMetaFile();
