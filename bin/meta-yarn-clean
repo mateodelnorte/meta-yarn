@@ -9,7 +9,7 @@ const path = require('path');
 const util = require('util');
 
 if (process.argv[2] === '--help') {
-  return console.log(`\n  usage:\n\n    meta yarn clean\n`);
+  return console.log(`\n  usage:\n\n    meta yarn clean [--cwd some/rel/path]\n\n  options: \n\n    --cwd some/rel/path   remove node_modules in a relative directory.\n`);
 }
 
 const meta = getMetaFile();
@@ -18,7 +18,14 @@ const folders = Object.keys(projects).map((folder) => { return path.resolve(fold
 
 folders.unshift(process.cwd());
 
-loop({
+const args = {
   command: 'rm -rf node_modules',
   directories: folders.reverse()
-});
+};
+
+if (process.argv[2] === '--cwd' && process.argv[3]) {
+  const cwd = process.argv[3];
+  args.command = `rm -rf ${cwd}/node_modules`;
+}
+
+loop(args);

@@ -9,7 +9,7 @@ const path = require('path');
 const util = require('util');
 
 if (process.argv[2] === '--help') {
-  return console.log(`\n  usage:\n\n    meta yarn install\n`);
+  return console.log(`\n  usage:\n\n    meta yarn install [--cwd some/rel/path]\n\n  options: \n\n    --cwd some/rel/path   executes yarn install in a relative directory.\n`);
 }
 
 const meta = getMetaFile();
@@ -18,7 +18,14 @@ const folders = Object.keys(projects).map((folder) => { return path.resolve(fold
 
 folders.unshift(process.cwd());
 
-loop({
+const args = {
   command: 'yarn install',
   directories: folders
-});
+};
+
+if (process.argv[2] === '--cwd' && process.argv[3]) {
+  const cwd = process.argv[3];
+  args.command = `yarn --cwd ${cwd} install`;
+}
+
+loop(args);
