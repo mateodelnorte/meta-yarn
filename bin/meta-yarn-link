@@ -49,7 +49,14 @@ const packages = [];
 
 _.forEach(Object.keys(projects), (folder) => {
 
-  const childPackageJson = require(path.join(metaLocation, '..', folder, 'package.json'));
+  const childPackageJsonPath = path.join(metaLocation, '..', folder, 'package.json');
+
+  if (!fs.existsSync(childPackageJsonPath)) {
+    console.log(`\nNo package.json file found for ${folder}, skipping...`)
+    return;
+  }
+
+  const childPackageJson = require(childPackageJsonPath);
 
   if (all) {
     metaPackageJson.dependencies[childPackageJson.name] = null;
