@@ -1,4 +1,7 @@
 # meta-yarn
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/mateodelnorte/meta-yarn.svg)](https://greenkeeper.io/)
+
 yarn plugin for [meta](https://github.com/mateodelnorte/meta)
 
 
