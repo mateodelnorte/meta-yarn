@@ -32,9 +32,9 @@
   "homepage": "https://github.com/mateodelnorte/meta-yarn#readme",
   "dependencies": {
     "async": "^2.1.4",
-    "chalk": "^1.1.3",
+    "chalk": "^2.4.1",
     "commander": "^2.9.0",
-    "debug": "^2.3.3",
+    "debug": "^4.1.0",
     "get-meta-file": "^0.0.5",
     "lodash": "^4.17.4",
     "loop": "^3.0.6",
