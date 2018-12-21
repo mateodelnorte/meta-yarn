@@ -1,6 +1,6 @@
 {
   "name": "meta-yarn",
-  "version": "0.0.5",
+  "version": "0.0.0-development",
   "description": "yarn plugin for meta",
   "main": "index.js",
   "bin": {
