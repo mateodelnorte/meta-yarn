@@ -10,7 +10,7 @@
     "meta-yarn-link": "./bin/meta-yarn-link"
   },
   "scripts": {
-    "test": "yarn test"
+    "test": "echo \"No tests.\""
   },
   "repository": {
     "type": "git",
