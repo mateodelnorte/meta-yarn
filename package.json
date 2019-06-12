@@ -41,7 +41,7 @@
   },
   "homepage": "https://github.com/mateodelnorte/meta-yarn#readme",
   "dependencies": {
-    "async": "^2.1.4",
+    "async": "^3.0.0",
     "chalk": "^2.4.1",
     "commander": "^2.9.0",
     "debug": "^4.1.0",
