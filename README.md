@@ -1,4 +1,7 @@
+[![Build Status](https://travis-ci.com/mateodelnorte/meta-yarn.svg?branch=master)](https://travis-ci.com/mateodelnorte/meta-yarn)
+
 # meta-yarn
+
 yarn plugin for [meta](https://github.com/mateodelnorte/meta)
 
 
