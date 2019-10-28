@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+const getMetaFile = require('get-meta-file');
+const loop = require('loop');
+const path = require('path');
+
+if (process.argv[2] === '--help') {
+  return console.log(`\n  usage:\n\n    meta yarn version <version>\n\n  options: \n\n    version   marks all child repositories with the provided version\n`);
+}
+
+const meta = getMetaFile();
+const projects = meta.projects;
+const folders = Object.keys(projects).map((folder) => { return path.resolve(folder); });
+const version = process.argv[2];
+
+folders.unshift(process.cwd());
+
+loop({
+  command: `yarn version --new-version ${version}`,
+  directories: folders.reverse()
+});
