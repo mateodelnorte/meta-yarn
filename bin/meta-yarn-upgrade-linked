@@ -74,7 +74,7 @@ packages
         }
       });
 
-    fs.writeFileSync(package.packagePath, JSON.stringify(childPackageJson, null, 2));
+    fs.writeFileSync(package.packagePath, `${JSON.stringify(childPackageJson, null, 2)}${require('os').EOL}`);
     installDirs.push(package.folder);
   });
 
