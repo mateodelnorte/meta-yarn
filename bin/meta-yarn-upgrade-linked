@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const program = require('commander');
+const debug = require('debug')('meta-yarn-install');
+const getMetaFile = require('get-meta-file');
+const loop = require('loop');
+const path = require('path');
+const util = require('util');
+const metaLocation = path.join(process.cwd(), '.meta');
+const getPackageDependencies = require('../lib/getPackageDependencies');
+
+if (process.argv.length !== 3 || process.argv[2] === '--help') {
+  return console.log(`\n  usage:\n\n    meta yarn upgrade-linked <version>\n`);
+}
+
+const version = process.argv[2];
+
+try {
+  buffer = fs.readFileSync(metaLocation);
+  debug(`.meta file found at ${metaLocation}`);
+} catch (e) {
+  debug(`no .meta file found at ${metaLocation}: ${e}`);
+}
+
+const meta = getMetaFile();
+const projects = meta.projects;
+
+const packages = [];
+
+Object.keys(projects).forEach(project => {
+  const folder = path.resolve(project);
+  const packagePath = path.resolve(metaLocation, '..', folder, 'package.json');
+  const childPackageJson = require(packagePath);
+
+  packages.push({
+    name: childPackageJson.name,
+    gitRef: projects[project],
+    folder,
+    packagePath,
+    dependencies: [
+      ...Object.keys(childPackageJson.dependencies || {}),
+      ...Object.keys(childPackageJson.devDependencies || {}),
+    ],
+  });
+});
+
+const packageNames = packages.map(package => package.name);
+const installDirs = [];
+
+packages
+  .filter(package => package.dependencies.some(d => packageNames.includes(d)))
+  .forEach(package => {
+    const childPackageJson = require(package.packagePath);
+
+    packages
+      .filter(
+        packageDep =>
+          (childPackageJson.dependencies && childPackageJson.dependencies[packageDep.name]) ||
+          (childPackageJson.devDependencies && childPackageJson.devDependencies[packageDep.name])
+      )
+      .forEach(packageDep => {
+        const newRef = `git+ssh://${packageDep.gitRef}#${version}`;
+        
+
+        if (childPackageJson.dependencies && childPackageJson.dependencies[packageDep.name]) {
+          console.log(`Updating ${package.name} reference to ${packageDep.name}.`);
+          childPackageJson.dependencies[packageDep.name] = newRef;
+        }
+
+        if (childPackageJson.devDependencies && childPackageJson.devDependencies[packageDep.name]) {
+          console.log(`Updating ${package.name} reference to ${packageDep.name}.`);
+          childPackageJson.devDependencies[packageDep.name] = newRef;
+        }
+      });
+
+    fs.writeFileSync(package.packagePath, JSON.stringify(childPackageJson, null, 2));
+    installDirs.push(package.folder);
+  });
+
+  // run install on each folder to update yarn.lock
+  loop({
+    command: 'yarn install', 
+    directories: installDirs
+  })
