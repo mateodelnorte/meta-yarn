@@ -27,6 +27,19 @@ var buffer = null;
 
 const metaLocation = path.join(process.cwd(), '.meta');
 
+const recursiveSearch = (obj, results = []) => {
+  const r = results;
+  Object.keys(obj).forEach(key => {
+    const value = obj[key];
+    if (typeof value !== 'object') {
+      r.push(key);
+    } else if (typeof value === 'object') {
+      recursiveSearch(value, r);
+    }
+  });
+  return r;
+};
+
 try {
   buffer = fs.readFileSync(metaLocation);
   debug(`.meta file found at ${metaLocation}`);
@@ -43,11 +56,11 @@ if (buffer) {
   }
 }
 
-const projects = meta.projects;
+const projects = recursiveSearch(meta.projects);
 const metaPackageJson = require(path.join(metaLocation, '..', 'package.json'));
 const packages = [];
 
-_.forEach(Object.keys(projects), (folder) => {
+_.forEach(projects, (folder) => {
 
   const childPackageJson = require(path.join(metaLocation, '..', folder, 'package.json'));
 
